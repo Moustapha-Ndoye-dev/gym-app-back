@@ -299,4 +299,4 @@ Les origines CORS autorisées en développement incluent notamment `http://local
 
 ## Auteur
 
-**Moustapha Ndoye** — ingénieur fullstack, orientation sécurité applicative et architecture API.
+**Moustapha Ndoye**
