@@ -1,0 +1,7 @@
+# Ignore artifacts:
+dist
+node_modules
+coverage
+.env
+prisma/gym_database.sqlite
+prisma/gym_database.sqlite-journal

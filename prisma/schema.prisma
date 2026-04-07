@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated-client"
+}
+
+datasource db {
+  provider = "sqlite" // Can be easily switched to postgresql or mysql
+  url      = env("DATABASE_URL")
+}
+
+// Represents a registered Gym/Company in the SaaS
+model Gym {
+  id              Int            @id @default(autoincrement())
+  name            String
+  address         String?
+  phone           String         @unique
+  email           String?
+  status          String         @default("ACTIVE") // ACTIVE, BLOCKED
+  saasFee         Float          @default(15000) @map("saas_fee")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  subscriptionEnd DateTime?      @map("subscription_end")
+  
+  // Relations: All these belong to this specific Gym
+  users           User[]
+  members         Member[]
+  activities      Activity[]
+  subscriptions   Subscription[]
+  tickets         Ticket[]
+  products        Product[]
+  transactions    Transaction[]
+
+  @@map("gyms")
+}
+
+// Gym administrators and staff
+model User {
+  id           Int           @id @default(autoincrement())
+  gymId        Int           @map("gym_id")
+  username     String        @unique
+  email        String?       @unique
+  password     String
+  role         String        // admin, cashier, controller, member
+  createdAt    DateTime      @default(now()) @map("created_at")
+  
+  gym          Gym           @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Member {
+  id               Int         @id @default(autoincrement())
+  gymId            Int         @map("gym_id")
+  firstName        String?     @map("first_name")
+  lastName         String?     @map("last_name")
+  phone            String?
+  email            String?
+  registrationDate DateTime?   @default(now()) @map("registration_date")
+  expiryDate       DateTime?   @map("expiry_date")
+  subscriptionId   Int?        @map("subscription_id")
+  photo            String?
+  
+  gym              Gym           @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  subscription     Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  accessLogs       AccessLog[]
+
+  @@map("members")
+}
+
+model Activity {
+  id             Int            @id @default(autoincrement())
+  gymId          Int            @map("gym_id")
+  name           String
+  description    String?
+
+  gym            Gym            @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  subscriptions  Subscription[]
+
+  @@map("activities")
+}
+
+model Subscription {
+  id             Int        @id @default(autoincrement())
+  gymId          Int        @map("gym_id")
+  name           String
+  price          Float
+  features       String?
+
+  gym            Gym        @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  members        Member[]
+  activities     Activity[]
+
+  @@map("subscriptions")
+}
+
+model Ticket {
+  id         Int         @id @default(autoincrement())
+  gymId      Int         @map("gym_id")
+  type       String
+  price      Float
+  status     String?     @default("valid")
+  createdAt  DateTime?   @default(now()) @map("created_at")
+  
+  gym        Gym         @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  accessLogs AccessLog[]
+
+  @@map("tickets")
+}
+
+model AccessLog {
+  id         Int       @id @default(autoincrement())
+  memberId   Int?      @map("member_id")
+  ticketId   Int?      @map("ticket_id")
+  accessTime DateTime? @default(now()) @map("access_time")
+  status     String
+  
+  member     Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  ticket     Ticket?   @relation(fields: [ticketId], references: [id], onDelete: SetNull)
+
+  @@map("access_logs")
+}
+
+model Transaction {
+  id          Int       @id @default(autoincrement())
+  gymId       Int       @map("gym_id")
+  amount      Float
+  type        String
+  description String?
+  date        DateTime? @default(now())
+  userId      Int?      @map("user_id")
+  
+  gym         Gym       @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("transactions")
+}
+
+model Product {
+  id       Int     @id @default(autoincrement())
+  gymId    Int     @map("gym_id")
+  name     String
+  price    Float
+  stock    Int?    @default(0)
+  category String?
+  photo    String?
+
+  gym      Gym     @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  @@map("products")
+}

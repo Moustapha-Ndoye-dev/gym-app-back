@@ -1,0 +1,10 @@
+node_modules/
+dist/
+prisma/gym_database.sqlite
+.env
+.env.*
+!.env.example
+*.log
+# Client Prisma généré (regénérer avec npm run db:generate)
+prisma/generated-client/
+src/generated/
