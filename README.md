@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="./assets/banner.svg" alt="Gym Central — API Backend" width="920" />
+  <img src="./assets/gym-api-banner.png" alt="GYM API — backend REST pour salles de sport" width="920" />
 </p>
 
-<h1 align="center">Gym Central · API Backend</h1>
+<h1 align="center">GYM API</h1>
 
 <p align="center">
-  Plateforme <strong>REST</strong> multi-tenant · isolation par salle (<code>gymId</code>) · <strong>JWT</strong> · <strong>Prisma</strong> · <strong>OpenAPI</strong>
+  Backend <strong>REST</strong> pour la gestion de salles de sport · modèle <strong>multi-tenant</strong> (isolation par salle, <code>gymId</code>) · <strong>JWT</strong> · <strong>Prisma</strong> · <strong>OpenAPI</strong>
 </p>
 
 <div align="center">
@@ -197,8 +197,8 @@ Point d’entrée compilé : `dist/server.js`.
 | `npm run format` | Prettier sur les sources |
 | `npm run test` | Suite de tests API (script PowerShell : `tests/test-all.ps1`) |
 | `npm run seed` | Script d’amorçage (`ts-node src/config/db.ts`) |
-| `npm run monitor:start` | Démarrage PM2 via `ecosystem.config.js` |
-| `npm run monitor:stop` | Arrêt du processus PM2 nommé |
+| `npm run monitor:start` | Démarrage PM2 via `ecosystem.config.js` (processus `gym-api`) |
+| `npm run monitor:stop` | Arrêt du processus PM2 `gym-api` |
 | `npm run monitor:logs` / `monitor:status` / `monitor:dash` | Opérations PM2 |
 
 ---

@@ -14,8 +14,8 @@
     "lint": "eslint \"src/**/*.ts\" --fix",
     "seed": "ts-node src/config/db.ts",
     "monitor:start": "pm2 start ecosystem.config.js",
-    "monitor:stop": "pm2 stop gym-central-api",
-    "monitor:logs": "pm2 logs gym-central-api",
+    "monitor:stop": "pm2 stop gym-api",
+    "monitor:logs": "pm2 logs gym-api",
     "monitor:status": "pm2 status",
     "monitor:dash": "pm2 monit"
   },

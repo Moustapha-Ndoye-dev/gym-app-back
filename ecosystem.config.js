@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'gym-central-api',
+      name: 'gym-api',
       script: './src/server.ts', // On utilise ts-node pour le dev ou on pointe vers dist/server.js pour la prod
       interpreter: 'node',
       interpreter_args: '-r ts-node/register', // Permet de lancer du TS directement

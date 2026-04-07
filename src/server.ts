@@ -33,9 +33,10 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Gym Management API',
+      title: 'GYM API',
       version: '1.0.0',
-      description: 'API for managing gym members, subscriptions, and products',
+      description:
+        'API REST multi-tenant pour salles de sport : membres, abonnements, accès, produits, transactions, statistiques.',
     },
     servers: [
       {
@@ -91,7 +92,7 @@ app.use('/api/super', superAdminRoutes);
 // Base route
 app.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'Gym Central API is running (TypeScript + Express + Prisma)',
+    message: 'GYM API is running (TypeScript + Express + Prisma)',
   });
 });
 

@@ -1,5 +1,5 @@
 # ==============================================================================
-# SUITE DE TESTS API - GYM CENTRAL (alignee sur l'API actuelle)
+# SUITE DE TESTS API — GYM API (alignée sur l’API actuelle)
 # ==============================================================================
 # Prerequis : API demarree (npm run dev), .env configure, port 5000.
 # Lance : depuis gym back  ->  npm run test

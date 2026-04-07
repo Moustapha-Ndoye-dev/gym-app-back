@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Tests API rapides (bash + curl) - alignes sur l'API Gym Central actuelle
+# Tests API rapides (bash + curl) — alignés sur l’API GYM API actuelle
 # Pour la suite complete avec compteurs : utiliser tests/test-all.ps1 sous Windows
 # Prerequis : API sur http://localhost:5000, curl, jq (optionnel pour parser)
 # ==============================================================================

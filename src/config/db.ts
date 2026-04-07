@@ -8,16 +8,31 @@ import bcrypt from 'bcryptjs';
 import { getBootstrapPassword } from './security';
 
 const prisma = new PrismaClient();
-export const SYSTEM_GYM_NAME = 'Gym Central HQ';
+
+/** Nom canonique de la salle « système » (super-admin SaaS). */
+export const SYSTEM_GYM_NAME = 'GYM API HQ';
+/** Ancien nom (migration automatique au démarrage si présent en base). */
+const LEGACY_SYSTEM_GYM_NAME = 'Gym Central HQ';
+const SYSTEM_GYM_EMAIL = 'system@gymapi.local';
+
 export const SYSTEM_GYM_PHONE = '0000000000';
 
 export const ensureSystemGym = async () => {
-  const existingSystemGym = await prisma.gym.findFirst({
+  const current = await prisma.gym.findFirst({
     where: { name: SYSTEM_GYM_NAME },
   });
+  if (current) {
+    return current;
+  }
 
-  if (existingSystemGym) {
-    return existingSystemGym;
+  const legacy = await prisma.gym.findFirst({
+    where: { name: LEGACY_SYSTEM_GYM_NAME },
+  });
+  if (legacy) {
+    return prisma.gym.update({
+      where: { id: legacy.id },
+      data: { name: SYSTEM_GYM_NAME, email: SYSTEM_GYM_EMAIL },
+    });
   }
 
   console.log('[DB-INIT] Initializing System Gym...');
@@ -25,7 +40,7 @@ export const ensureSystemGym = async () => {
   return prisma.gym.create({
     data: {
       name: SYSTEM_GYM_NAME,
-      email: 'system@gymcentral.com',
+      email: SYSTEM_GYM_EMAIL,
       phone: SYSTEM_GYM_PHONE,
       saasFee: 0,
       status: 'ACTIVE',

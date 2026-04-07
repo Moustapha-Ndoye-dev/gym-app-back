@@ -15,7 +15,7 @@ const logger = winston.createLogger({
     winston.format.errors({ stack: true }),
     json()
   ),
-  defaultMeta: { service: 'gym-central-api' },
+  defaultMeta: { service: 'gym-api' },
   transports: [
     // 1. Écrit toutes les erreurs dans logs/error.log
     new winston.transports.File({ 
